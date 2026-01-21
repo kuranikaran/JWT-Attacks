@@ -325,6 +325,7 @@ The `kid` header value is mapped directly to filesystem paths.
 
 <img width="952" height="444" alt="Contest yor textinto charsetaut" src="https://github.com/user-attachments/assets/e2b71fa6-a39d-483a-afd8-ac3a0a9c9f1a" />
 
+---
 
 ### 7️⃣ Algorithm Confusion (RS256 ↔ HS256)
 
@@ -343,6 +344,56 @@ The server supports both symmetric and asymmetric algorithms.
 **Mitigation**
 - Enforce strict algorithm allowlists
 - Separate key usage by algorithm type
+
+---
+
+### 7️⃣ Algorithm Confusion (RS256 ↔ HS256) Attack Example
+
+- We will check if the application is vulnerable to algorithm confusion attack also called as key confusion attack
+- Before We perfom attack
+- There are two types of keys sym (one key) and asym (two keys | public & private)
+- Private key is used to sign the tokens
+- Our goal here is to confuse the server we will use same algo to sign the token and verify the keys (Public Key)
+
+- Here RS256 algo is used
+- Websites generally store public keys at [domain]/jwks.json endpoint
+  
+  <img width="849" height="667" alt="HTTP2 200 ON" src="https://github.com/user-attachments/assets/a8b452d2-1153-405d-ba0a-851f340160e8" />
+
+- Browser View
+  
+  <img width="1508" height="567" alt="(keys  (kty RSA, e AQA8, use 51g, kid 097b2e15" src="https://github.com/user-attachments/assets/8be4744a-1326-47ba-8bb1-02b59baff21d" />
+
+- We will carefully copy selected section of key 
+
+  <img width="922" height="188" alt="(keys 1(kty RSA, e AQAB, use sig  kid d97b2efs-" src="https://github.com/user-attachments/assets/2f7b5d66-92c2-414c-a40f-057e75f1b1a5" />
+
+- Jwt Editor > New RSA key  > We will paste the content here 
+   
+  <img width="888" height="472" alt="El RSAKcy" src="https://github.com/user-attachments/assets/7135a953-3335-4579-bf30-9ababcfe487c" />
+
+- Copy the content as Copy Public key as PEM 
+  <img width="654" height="370" alt="Keys" src="https://github.com/user-attachments/assets/a34f2725-2b72-45a3-834e-3a27d14ea281" />
+
+- Paste it in decoder and encode them as base64
+
+  <img width="1050" height="356" alt="Screenshot 2026-01-13 at 5 01 23 PM" src="https://github.com/user-attachments/assets/b39dd385-8457-444d-bb4a-e6a8f3709ab8" />
+
+- Copy the base64 genrated key we will use it as our new symmetric key 
+
+-  JWT Editor > New Symmetric key  > Genrate > Paste the base64 content in k param 
+
+  <img width="524" height="251" alt="RUenpNNzIKK1FJREFRQUIKLS0tLS1FTkQguFVCTELDIEtFWS0tLS0tCg==" src="https://github.com/user-attachments/assets/a715958c-2c9f-47fe-8e51-d4c0073e5928" />
+
+- Modify the content with our intend here we will change alg and sub param with HS256 and admin
+
+  <img width="331" height="293" alt="d97b2ef5-a3dd-48b0-99d8-7778" src="https://github.com/user-attachments/assets/1ccdb584-0c59-4f91-818d-2bbdb319e5c8" />
+
+- Sign the payload with our genrated key
+
+  <img width="741" height="628" alt="alized MT-" src="https://github.com/user-attachments/assets/be1c79b9-cfff-40b1-8118-5d5461c103e4" />
+
+  <img width="1047" height="500" alt="Screenshot 2026-01-13 at 5 08 36 PM" src="https://github.com/user-attachments/assets/0c8608dc-0455-41f6-8967-857ff464d5f1" />
 
 ---
 
