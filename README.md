@@ -54,6 +54,8 @@ A JSON Web Token (JWT) consists of three Base64URL-encoded components:
 
 HEADER.PAYLOAD.SIGNATURE
 
+<img width="1044" height="507" alt="Screenshot 2026-01-22 at 6 18 19 PM" src="https://github.com/user-attachments/assets/12c790b9-fcac-474d-8dc6-4337d09aa948" />
+
 
 JWT security **does not rely on encryption**, but on **correct signature verification and strict validation logic**.
 
